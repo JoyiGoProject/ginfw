@@ -1,7 +1,7 @@
 package main
 
 import (
-	"ginfw/controller"
+	"fmt"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -48,7 +48,7 @@ import (
 }
 */
 
-func main() {
+/* func main() {
 	gin.SetMode(gin.DebugMode) //设置全局环境，当前为开发环境
 	router := gin.Default()
 
@@ -62,7 +62,7 @@ func main() {
 
 	//监听端口
 	http.ListenAndServe(":8000", router)
-}
+} */
 
 /* func Middleware(c *gin.Context) {
 	fmt.Println("this is a middleware")
@@ -106,3 +106,19 @@ func DeleteHandler(c *gin.Context) {
 	http.ListenAndServe(":8000", r.Init())
 }
 */
+
+func main() {
+	//获取一个路由handler
+	router := gin.Default()
+
+	router.GET("/user/:name/*action", func(c *gin.Context) {
+		name := c.Param("name")
+		fmt.Println("获取的name是：", name)
+		action := c.Param("action")
+		fmt.Println("获取的action是：", action)
+		// c.String(http.StatusOK, "Hello World")
+		c.String(http.StatusOK, "Hello %s", name+"\n")
+		c.String(http.StatusOK, name+" is "+action)
+	})
+	router.Run(":8000")
+}
